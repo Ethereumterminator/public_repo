@@ -20,24 +20,20 @@ read -p "Type 'Y' to continue: " response
 
 if [ "$response" = "Y" ] || [ "$response" = "y" ]; then
     echo "Continuing..."
-    # Run the iptables command inside the Docker container
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 81 -j DNAT --to-destination 10.8.0.6:81
 
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5050 -j DNAT --to-destination 10.8.0.6:5050
+    # Prompt the user to enter a list of forwarding ports separated by spaces
+    read -p "Enter forwarding ports (e.g., 81 5050 5051): " ports
 
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5051 -j DNAT --to-destination 10.8.0.6:5051
+    # Split the user input into an array
+    IFS=" " read -ra port_array <<< "$ports"
 
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5052 -j DNAT --to-destination 10.8.0.6:5052
-
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5053 -j DNAT --to-destination 10.8.0.6:5053
-
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5054 -j DNAT --to-destination 10.8.0.6:5054
-
-    docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5055 -j DNAT --to-destination 10.8.0.6:5055
-
+    # Loop through the array and run the docker exec command for each port
+    for port in "${port_array[@]}"; do
+        docker exec -it dockovpn iptables -t nat -A PREROUTING -i eth0 -p tcp --dport "$port" -j DNAT --to-destination 10.8.0.6:"$port"
+    done
 
     sleep 1
-    echo "Install finished thank you !"
-    else
+    echo "Install finished, thank you!"
+else
     echo "Exiting..."
 fi
