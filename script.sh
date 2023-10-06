@@ -5,10 +5,16 @@ echo "Fiver Contact -> https://www.fiverr.com/nooblk98"
 sleep 3
 echo "e-mail -> liyanagelsofficial@gmail.com"
 sleep 1
-echo "Forwarding ports - 5050 , 5051 , 5052 , 5053 , 5054 , 5055 , 81"
-sleep 1
 echo "Installing"
 # Run the Docker container in the background
+apt update -y
+
+apt upgrade -y
+
+apt install docker.io -y
+
+ufw disable -y
+
 docker run -d --cap-add=NET_ADMIN -p 1194:1194/udp -p 80:8080/tcp -p 81:81/tcp -p 5050:5050/tcp -p 5051:5051/tcp -p 5052:5052/tcp -p 5053:5053/tcp -p 5054:5054/tcp -p 5055:5055/tcp -e HOST_ADDR=$(curl -s https://api.ipify.org) --name dockovpn alekslitvinenk/openvpn
 
 
