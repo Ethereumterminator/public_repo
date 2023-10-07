@@ -1,9 +1,9 @@
 #!/bin/bash
 echo "OPENVPN PORT FORWARDING INSTALLER"
 sleep 2
-echo "Fiver Contact -> https://www.fiverr.com/nooblk98"
+echo "Telegram Contact -> @Ethereumterminator"
 sleep 3
-echo "e-mail -> liyanagelsofficial@gmail.com"
+echo "e-mail -> ethereumterminator@proton.me"
 sleep 1
 echo "Installing"
 
